@@ -33,7 +33,7 @@ pipeline{
                     withCredentials([string(credentialsId: 'docker-nexus-cred', variable: 'docker-nexus-password')]) {
                          sh '''                      
                             docker build -t 192.168.1.167:8083/spingapp:${VERSION} .
-                            docker login -u admin -p ${docker-nexus-password} 192.168.1.167:8083 
+                            docker login -u admin -p $docker-nexus-password 192.168.1.167:8083 
                             docker push 192.168.1.167:8083/spingapp:${VERSION}
                             docker rmi 192.168.1.167:8083/spingapp:${VERSION}    
                          '''
