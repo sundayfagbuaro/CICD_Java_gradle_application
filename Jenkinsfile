@@ -27,19 +27,34 @@ pipeline{
                 }
             }
         }
-        stage('Docker Build && Docker Push'){
+//        stage('Docker Build && Docker Push'){
+//            steps{
+//                script{
+//                    withCredentials([string(credentialsId: 'docker-nexus-cred', variable: 'doc-nexus-pass')]) {
+//                         sh '''                      
+//                            docker build -t 192.168.1.167:8083/spingapp:${VERSION} .
+//                            docker login -u admin -p $doc-nexus-pass 192.168.1.167:8083 
+//                            docker push 192.168.1.167:8083/spingapp:${VERSION}
+//                            docker rmi 192.168.1.167:8083/spingapp:${VERSION}    
+//                         '''
+//                    }                       
+//                }                      
+//            }
+//        }
+          stage('Docker Build && Docker Push'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: 'docker-nexus-cred', variable: 'doc-nexus-pass')]) {
+                    withCredentials([string(credentialsId: 'DOCKER-HUB-TOKEN', variable: 'docker_pass')]) {
                          sh '''                      
-                            docker build -t 192.168.1.167:8083/spingapp:${VERSION} .
-                            docker login -u admin -p $doc-nexus-pass 192.168.1.167:8083 
-                            docker push 192.168.1.167:8083/spingapp:${VERSION}
-                            docker rmi 192.168.1.167:8083/spingapp:${VERSION}    
+                            docker build -t sundayfagbuaro/spingapp:${VERSION} .
+                            docker login -u sundayfagbuaro -p $docker_pass 
+                            docker push sundayfagbuaro/spingapp:${VERSION}
+                            docker rmi sundayfagbuaro/spingapp:${VERSION}   
                          '''
                     }                       
                 }                      
             }
         }
+
     }
 }
